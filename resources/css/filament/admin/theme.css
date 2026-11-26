@@ -1,0 +1,75 @@
+.fi-body {
+    background-color: #fbf7ee;
+}
+
+.fi-header-heading,
+.fi-simple-header-heading,
+.fi-section-header-heading {
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    font-weight: 700;
+    color: #233f23;
+}
+
+/* ===== Halaman login ===== */
+.fi-simple-layout {
+    background-color: #fbf7ee;
+    background-image: radial-gradient(rgba(63, 122, 58, 0.12) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
+}
+
+.fi-simple-main {
+    border: 1px solid #dcebd6;
+    border-radius: 1.25rem;
+    box-shadow: 0 12px 32px rgba(35, 63, 35, 0.12);
+}
+
+.fi-simple-main .fi-btn {
+    border-radius: 9999px;
+}
+
+/* ===== Logo + nama dukuh ===== */
+.dukuh-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.dukuh-brand__logo {
+    display: flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    object-fit: cover;
+    background-color: #336331;
+    color: #fff;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+}
+
+.dukuh-brand__name {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #233f23;
+}
+
+.dukuh-login-intro {
+    margin-bottom: 1.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #6b665d;
+}
+
+.dukuh-login-back {
+    margin-top: 1.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+}
+
+.dukuh-login-back a {
+    color: #336331;
+    font-weight: 600;
+    text-decoration: underline;
+}
