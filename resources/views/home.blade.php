@@ -30,7 +30,8 @@
 
     $nextEvent = $events->first();
     $showLocation = $profile?->map_embed_url || $profile?->map_url || $profile?->address;
-    $aboutImage = $albums->first()?->cover_url ?: $profile?->cover_image_url;
+    // Foto bagian "Mengenal Dukuh" diunggah dari menu Profil Dukuh (bukan dari album).
+    $aboutImage = $profile?->about_image_url;
     $showAbout = $profile?->description || $profile?->history || $profile?->vision;
 @endphp
 
