@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->brandName(config('site.name', 'Dukuh Candi'))
             ->brandLogo(fn () => view('filament.brand'))
             ->brandLogoHeight('2.5rem')
-            ->favicon(asset('favicon.ico'))
+            ->favicon('/favicon.ico')
             ->font('Plus Jakarta Sans')
             ->darkMode(false)
             ->viteTheme('resources/css/filament/admin/theme.css')

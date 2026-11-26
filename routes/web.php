@@ -6,6 +6,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UmkmController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/profil', [PageController::class, 'profile'])->name('profile');
@@ -22,3 +23,20 @@ Route::get('/artikel', [ArticleController::class, 'index'])->name('articles.inde
 Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('articles.show');
 
 Route::get('/agenda', [EventController::class, 'index'])->name('events.index');
+
+Route::get('/_cek-s3', function () {
+    abort_unless(Auth::check(), 404);
+
+    $s3 = config('filesystems.disks.s3');
+
+    return response()->json([
+        'key_length' => strlen((string) ($s3['key'] ?? '')),
+        'secret_length' => strlen((string) ($s3['secret'] ?? '')),
+        'region' => $s3['region'] ?? null,
+        'bucket' => $s3['bucket'] ?? null,
+        'endpoint' => $s3['endpoint'] ?? null,
+        'path_style' => $s3['use_path_style_endpoint'] ?? null,
+        'default_disk' => config('filesystems.default'),
+        'livewire_tmp_disk' => config('livewire.temporary_file_upload.disk'),
+    ]);
+});
