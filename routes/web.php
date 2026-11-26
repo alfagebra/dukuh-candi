@@ -24,19 +24,11 @@ Route::get('/artikel/{slug}', [ArticleController::class, 'show'])->name('article
 
 Route::get('/agenda', [EventController::class, 'index'])->name('events.index');
 
-Route::get('/_cek-s3', function () {
-    abort_unless(Auth::check(), 404);
-
-    $s3 = config('filesystems.disks.s3');
-
-    return response()->json([
-        'key_length' => strlen((string) ($s3['key'] ?? '')),
-        'secret_length' => strlen((string) ($s3['secret'] ?? '')),
-        'region' => $s3['region'] ?? null,
-        'bucket' => $s3['bucket'] ?? null,
-        'endpoint' => $s3['endpoint'] ?? null,
-        'path_style' => $s3['use_path_style_endpoint'] ?? null,
-        'default_disk' => config('filesystems.default'),
-        'livewire_tmp_disk' => config('livewire.temporary_file_upload.disk'),
-    ]);
+Route::get('/debug-env', function () {
+    return [
+        's3_key_set'     => filled(env('S3_KEY')),
+        'config_key_set' => filled(config('filesystems.disks.s3.key')),
+        'bucket'         => config('filesystems.disks.s3.bucket'),
+        'endpoint'       => config('filesystems.disks.s3.endpoint'),
+    ];
 });
