@@ -18,9 +18,15 @@ class OfficialResource extends Resource
 {
     protected static ?string $model = Official::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationLabel = 'Perangkat Dukuh';
+    protected static ?string $modelLabel = 'Perangkat Dukuh';
+    protected static ?string $pluralModelLabel = 'Perangkat Dukuh';
 
     public static function form(Schema $schema): Schema
     {
