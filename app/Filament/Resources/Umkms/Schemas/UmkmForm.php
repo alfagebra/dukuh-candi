@@ -75,7 +75,7 @@ class UmkmForm
                     ->image()
                     ->disk('s3')
                     ->directory('umkms')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->maxSize(5120)
                     ->acceptedFileTypes([
                         'image/jpeg',
@@ -92,7 +92,7 @@ class UmkmForm
                             ->image()
                             ->disk('s3')
                             ->directory('umkms')
-                            ->visibility('public')
+                            ->visibility('private')
                             ->maxSize(5120)
                             ->acceptedFileTypes([
                                 'image/jpeg',

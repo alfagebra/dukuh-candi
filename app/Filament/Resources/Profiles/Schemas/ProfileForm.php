@@ -41,7 +41,7 @@ class ProfileForm
                             ->image()
                             ->disk('s3')
                             ->directory('profiles')
-                            ->visibility('public')
+                            ->visibility('private')
                             ->maxSize(5120)
                             ->acceptedFileTypes([
                                 'image/jpeg',
@@ -54,7 +54,7 @@ class ProfileForm
                             ->image()
                             ->disk('s3')
                             ->directory('profiles')
-                            ->visibility('public')
+                            ->visibility('private')
                             ->maxSize(5120)
                             ->acceptedFileTypes([
                                 'image/jpeg',

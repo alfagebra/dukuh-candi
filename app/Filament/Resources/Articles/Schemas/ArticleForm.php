@@ -60,7 +60,7 @@ class ArticleForm
                             ->image()
                             ->disk('s3')
                             ->directory('articles')
-                            ->visibility('public')
+                            ->visibility('private')
                             ->maxSize(5120)
                             ->acceptedFileTypes([
                                 'image/jpeg',

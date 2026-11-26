@@ -52,7 +52,7 @@ class ItemsRelationManager extends RelationManager
                     ->image()
                     ->disk('s3')
                     ->directory('gallery')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->maxSize(5120)
                     ->acceptedFileTypes([
                         'image/jpeg',
@@ -159,7 +159,7 @@ class ItemsRelationManager extends RelationManager
                             ->maxFiles(30)
                             ->disk('s3')
                             ->directory('gallery')
-                            ->visibility('public')
+                            ->visibility('private')
                             ->maxSize(5120)
                             ->acceptedFileTypes([
                                 'image/jpeg',

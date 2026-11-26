@@ -29,7 +29,7 @@ class OfficialForm
                     ->image()
                     ->disk('s3')
                     ->directory('officials')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->maxSize(5120)
                     ->acceptedFileTypes([
                         'image/jpeg',

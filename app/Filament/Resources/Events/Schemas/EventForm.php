@@ -59,7 +59,7 @@ class EventForm
                     ->image()
                     ->disk('s3')
                     ->directory('events')
-                    ->visibility('public')
+                    ->visibility('private')
                     ->maxSize(5120)
                     ->acceptedFileTypes([
                         'image/jpeg',
