@@ -15,6 +15,12 @@
 
     $metaImage = $image ?: $site?->cover_image_url;
 
+    // Favicon mengikuti logo yang diupload di Profil Dukuh.
+    // Parameter ?v= berubah setiap profil disimpan, jadi browser ambil ulang ikon baru.
+    $favicon = $site?->logo_url
+        ? $site->logo_url . (str_contains($site->logo_url, '?') ? '&' : '?') . 'v=' . ($site->updated_at?->timestamp ?? time())
+        : asset('favicon.ico');
+
     // Menu hanya tampil kalau halamannya sudah ada, jadi tidak ada tautan mati.
     $navItems = collect([
         ['label' => 'Beranda', 'route' => 'home', 'match' => 'home'],
@@ -49,7 +55,8 @@
         <meta name="twitter:card" content="summary_large_image">
     @endif
 
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" href="{{ $favicon }}">
+    <link rel="apple-touch-icon" href="{{ $favicon }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
