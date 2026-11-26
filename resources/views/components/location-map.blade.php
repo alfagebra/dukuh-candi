@@ -7,9 +7,3 @@
     </div>
 @endif
 
-@if ($profile?->map_url)
-    <a href="{{ $profile->map_url }}" target="_blank" rel="noopener"
-       class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:text-primary-900">
-        Buka di Google Maps <span aria-hidden="true">&rarr;</span>
-    </a>
-@endif

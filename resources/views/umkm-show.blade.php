@@ -60,7 +60,7 @@
                 @endif
 
                 @if ($umkm->description)
-                    <p class="mt-6 whitespace-pre-line text-lg leading-relaxed">{{ $umkm->description }}</p>
+                    <p class="prose-dukuh mt-6 whitespace-pre-line">{{ $umkm->description }}</p>
                 @endif
 
                 <dl class="mt-6 space-y-4">

@@ -63,17 +63,17 @@
     </a>
 
     {{-- ===== Navigasi ===== --}}
-    <header class="sticky top-0 z-40 border-b border-primary-100 bg-cream/90 backdrop-blur">
+    <header class="sticky top-0 z-40 border-b-2 border-accent-500/70 bg-gradient-to-r from-[#1a301a] via-primary-900 to-primary-800 shadow-[0_6px_24px_rgba(26,48,26,0.25)]">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
             <a href="{{ route('home') }}" class="flex items-center gap-3">
                 @if ($site?->logo_url)
-                    <img src="{{ $site->logo_url }}" alt="Logo {{ $siteName }}" class="h-10 w-10 rounded-full object-cover">
+                    <img src="{{ $site->logo_url }}" alt="Logo {{ $siteName }}" class="h-10 w-10 rounded-full bg-cream object-cover ring-2 ring-white/25">
                 @else
-                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-700 font-display text-lg font-bold text-white" aria-hidden="true">
+                    <span class="flex h-10 w-10 items-center justify-center rounded-full bg-cream font-display text-lg font-bold text-primary-900 ring-2 ring-white/25" aria-hidden="true">
                         {{ mb_strtoupper(mb_substr($siteName, 0, 1)) }}
                     </span>
                 @endif
-                <span class="font-display text-lg font-bold text-primary-900">{{ $siteName }}</span>
+                <span class="font-display text-lg font-bold text-white">{{ $siteName }}</span>
             </a>
 
             <nav class="hidden md:block" aria-label="Menu utama">
@@ -82,7 +82,7 @@
                         <li>
                             <a href="{{ route($item['route']) }}"
                                @if (request()->routeIs($item['match'])) aria-current="page" @endif
-                               class="rounded-full px-4 py-2 text-sm font-semibold transition {{ request()->routeIs($item['match']) ? 'bg-primary-700 text-white' : 'text-primary-800 hover:bg-primary-100' }}">
+                               class="rounded-full px-4 py-2 text-sm font-semibold transition {{ request()->routeIs($item['match']) ? 'bg-cream text-primary-900 shadow' : 'text-primary-100 hover:bg-white/10 hover:text-white' }}">
                                 {{ $item['label'] }}
                             </a>
                         </li>
@@ -91,7 +91,7 @@
             </nav>
 
             <button id="nav-toggle" type="button"
-                    class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-primary-800 hover:bg-primary-100 md:hidden"
+                    class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-primary-100 hover:bg-white/10 md:hidden"
                     aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka menu">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -99,13 +99,13 @@
             </button>
         </div>
 
-        <nav id="mobile-menu" class="hidden border-t border-primary-100 md:hidden" aria-label="Menu seluler">
+        <nav id="mobile-menu" class="hidden border-t border-white/10 bg-primary-900 md:hidden" aria-label="Menu seluler">
             <ul class="mx-auto flex max-w-6xl flex-col px-4 py-2">
                 @foreach ($navItems as $item)
                     <li>
                         <a href="{{ route($item['route']) }}"
                            @if (request()->routeIs($item['match'])) aria-current="page" @endif
-                           class="block rounded-lg px-3 py-3 text-base font-semibold {{ request()->routeIs($item['match']) ? 'bg-primary-100 text-primary-900' : 'text-primary-800' }}">
+                           class="block rounded-lg px-3 py-3 text-base font-semibold {{ request()->routeIs($item['match']) ? 'bg-white/15 text-white' : 'text-primary-100' }}">
                             {{ $item['label'] }}
                         </a>
                     </li>

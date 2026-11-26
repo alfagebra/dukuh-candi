@@ -95,6 +95,15 @@ class Profile extends Model
         return static::storageUrl($this->cover_image_path);
     }
 
+    /**
+     * Foto untuk section "Mengenal Dukuh".
+     * Kalau kolom about_image_path belum ada, pakai foto cover dari Profil Dukuh.
+     */
+    public function getAboutImageUrlAttribute(): ?string
+    {
+        return static::storageUrl($this->about_image_path ?? null) ?: $this->cover_image_url;
+    }
+
     public function getWhatsappUrlAttribute(): ?string
     {
         $number = preg_replace('/\D+/', '', (string) $this->whatsapp);

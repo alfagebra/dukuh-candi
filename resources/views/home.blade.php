@@ -30,9 +30,22 @@
 
     $nextEvent = $events->first();
     $showLocation = $profile?->map_embed_url || $profile?->map_url || $profile?->address;
-    // Foto bagian "Mengenal Dukuh" diunggah dari menu Profil Dukuh (bukan dari album).
     $aboutImage = $profile?->about_image_url;
-    $showAbout = $profile?->description || $profile?->history || $profile?->vision;
+
+    // Normalisasi teks untuk mendeteksi isi yang kembar
+    $norm = fn ($text) => \Illuminate\Support\Str::of(strip_tags((string) $text))->squish()->lower()->toString();
+
+    $aboutDescription = $profile?->description;
+    $aboutHistory = filled($profile?->history) && $norm($profile->history) !== $norm($profile->description)
+        ? $profile->history
+        : null;
+    $aboutVision = filled($profile?->vision)
+        && $norm($profile->vision) !== $norm($profile->description)
+        && $norm($profile->vision) !== $norm($profile->history)
+        ? $profile->vision
+        : null;
+
+    $showAbout = $aboutDescription || $aboutHistory || $aboutVision;
 @endphp
 
 <x-layouts.app :description="$profile?->tagline ?: $profile?->description" flush>
@@ -141,25 +154,25 @@
                     </p>
                     <h2 class="mt-3 font-display text-3xl font-bold text-primary-900 sm:text-4xl">{{ $siteName }}</h2>
 
-                    @if ($profile->description)
-                        <p class="mt-5 whitespace-pre-line text-lg leading-relaxed">{{ Str::limit($profile->description, 420) }}</p>
+                    @if ($aboutDescription)
+                        <p class="mt-5 whitespace-pre-line text-lg leading-relaxed">{{ Str::limit($aboutDescription, 420) }}</p>
                     @endif
 
-                    @if ($profile->history)
+                    @if ($aboutHistory)
                         <div class="mt-6">
                             <h3 class="font-display text-lg font-bold text-primary-900">Sejarah Singkat</h3>
-                            <p class="mt-2 whitespace-pre-line leading-relaxed text-ink/90">{{ Str::limit($profile->history, 340) }}</p>
+                            <p class="mt-2 whitespace-pre-line leading-relaxed text-ink/90">{{ Str::limit($aboutHistory, 340) }}</p>
                         </div>
                     @endif
 
-                    @if ($profile->vision)
+                    @if ($aboutVision)
                         <div class="mt-6 rounded-2xl border border-accent-400/40 bg-accent-100/60 p-5">
                             <p class="text-xs font-semibold uppercase tracking-widest text-accent-600">Visi</p>
-                            <p class="mt-2 whitespace-pre-line font-display text-lg italic leading-relaxed text-primary-900">{{ Str::limit($profile->vision, 240) }}</p>
+                            <p class="mt-2 whitespace-pre-line font-display text-lg italic leading-relaxed text-primary-900">{{ Str::limit($aboutVision, 240) }}</p>
                         </div>
                     @endif
 
-                    <a href="{{ route('profile') }}{{ $profile->history ? '#sejarah' : '' }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:text-primary-900">
+                    <a href="{{ route('profile') }}{{ $aboutHistory ? '#sejarah' : '' }}" class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary-700 hover:text-primary-900">
                         Baca selengkapnya <span aria-hidden="true">&rarr;</span>
                     </a>
                 </div>
@@ -281,36 +294,22 @@
         </x-section>
     @endif
 
-    {{-- ===== Struktur Dukuh (tetap di bagian bawah) ===== --}}
+    {{-- ===== Struktur Dukuh (sejajar, rata tengah) ===== --}}
     @if ($officials->isNotEmpty())
-        @php
-            $head = $officials->first();
-            $members = $officials->skip(1);
-        @endphp
-
         <x-section tone="white" id="struktur">
             <x-section-heading title="Struktur Dukuh" subtitle="Perangkat yang melayani dan menggerakkan warga." />
 
-            <div class="flex justify-center">
-                <x-official-head :official="$head" />
-            </div>
-
-            @if ($members->isNotEmpty())
-                <div class="mx-auto h-8 w-px bg-primary-200" aria-hidden="true"></div>
-                <div class="mx-auto hidden h-px w-3/4 bg-primary-200 md:block" aria-hidden="true"></div>
-
-                <ul class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                    @foreach ($members as $official)
-                        <x-official-card :official="$official" />
-                    @endforeach
-                </ul>
-            @endif
+            <ul class="flex flex-wrap justify-center gap-4">
+                @foreach ($officials as $official)
+                    <x-official-card :official="$official" />
+                @endforeach
+            </ul>
 
             <x-more-button :href="route('profile') . '#perangkat'" label="Lihat selengkapnya" />
         </x-section>
     @endif
 
-    {{-- ===== 6. Peta (paling akhir), agenda di sampingnya ===== --}}
+    {{-- ===== 6. Agenda dan peta berdampingan ===== --}}
     @if ($events->isNotEmpty() || $showLocation)
         <x-section tone="green" id="lokasi">
             <div class="grid items-start gap-10 lg:grid-cols-2">
@@ -346,7 +345,7 @@
                 @endif
 
                 @if ($showLocation)
-                    <div class="{{ $events->isNotEmpty() || $showLocation ? '' : 'lg:col-span-2' }}">
+                    <div>
                         <x-section-heading title="Lokasi" subtitle="Temukan kami di peta." />
 
                         <x-location-map :profile="$profile" height="h-72 lg:h-80" />

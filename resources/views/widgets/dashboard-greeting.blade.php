@@ -8,10 +8,10 @@
     $hour = now()->hour;
 
     $greeting = match (true) {
-        $hour < 11 => 'Selamat pagi',
-        $hour < 15 => 'Selamat siang',
-        $hour < 18 => 'Selamat sore',
-        default => 'Selamat malam',
+        $hour < 11 => 'Selamat Pagi',
+        $hour < 15 => 'Selamat Siang',
+        $hour < 18 => 'Selamat Sore',
+        default => 'Selamat Malam',
     };
 @endphp
 

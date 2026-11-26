@@ -115,28 +115,6 @@ class ProfileForm
                                 'regex' => 'Tempel kode sematan dari Google Maps (Bagikan, lalu Sematkan peta).',
                             ])
                             ->columnSpanFull(),
-
-                        TextInput::make('map_url')
-                            ->label('Link Google Maps')
-                            ->url()
-                            ->placeholder('https://maps.app.goo.gl/...')
-                            ->helperText('Dipakai untuk tombol "Buka di Google Maps".')
-                            ->columnSpanFull(),
-
-                        TextInput::make('latitude')
-                            ->label('Latitude')
-                            ->numeric()
-                            ->minValue(-90)
-                            ->maxValue(90)
-                            ->placeholder('-7.xxxxxx')
-                            ->helperText('Alternatif kalau tidak memakai kode sematan. Cara ambil: buka link Google Maps, angka setelah tanda @ di alamat browser adalah latitude lalu longitude.'),
-
-                        TextInput::make('longitude')
-                            ->label('Longitude')
-                            ->numeric()
-                            ->minValue(-180)
-                            ->maxValue(180)
-                            ->placeholder('110.xxxxxx'),
                     ]),
 
                 Section::make('Media Sosial')
@@ -163,7 +141,6 @@ class ProfileForm
                     ]),
 
                 Section::make('Statistik Wilayah')
-                    ->description('Belum ditampilkan di website sampai data sensus dukuh tersedia. Boleh dikosongkan.')
                     ->columns(3)
                     ->columnSpanFull()
                     ->collapsed()
