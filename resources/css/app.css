@@ -75,3 +75,50 @@ html {
     color: var(--color-muted);
     font-style: italic;
 }
+
+body {
+    background-image:
+        radial-gradient(700px circle at 6% 0%, rgba(63, 122, 58, 0.14), transparent 60%),
+        radial-gradient(600px circle at 96% 12%, rgba(230, 178, 74, 0.16), transparent 60%),
+        radial-gradient(800px circle at 70% 100%, rgba(185, 215, 174, 0.40), transparent 60%);
+    background-attachment: fixed;
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.66);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 1.25rem;
+    box-shadow: 0 8px 28px rgba(35, 63, 35, 0.10);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(35, 63, 35, 0.16);
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+.glass-card--strong {
+    background: rgba(255, 255, 255, 0.88);
+}

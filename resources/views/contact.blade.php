@@ -58,7 +58,7 @@
         </div>
 
         <div>
-            <x-location-map :profile="$profile" ratio="aspect-[4/3]" />
+            <x-location-map :profile="$profile" height="h-72 lg:h-96" />
         </div>
     </div>
 </x-layouts.app>

@@ -72,3 +72,40 @@ if (dialog) {
 
     dialog.addEventListener('close', () => image.removeAttribute('src'));
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const all = Array.from(
+        document.querySelectorAll('[data-reveal], main h2, main .grid > *')
+    );
+
+    const targets = all.filter(
+        (el) => !all.some((other) => other !== el && other.contains(el))
+    );
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    targets.forEach((el) => {
+        if (el.getBoundingClientRect().top < window.innerHeight * 0.85) {
+            return;
+        }
+
+        const index = Array.from(el.parentElement.children).indexOf(el);
+        el.style.setProperty('--reveal-delay', `${(index % 4) * 80}ms`);
+        el.classList.add('reveal');
+        observer.observe(el);
+    });
+});

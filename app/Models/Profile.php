@@ -43,6 +43,9 @@ class Profile extends Model
         return [
             'latitude' => 'float',
             'longitude' => 'float',
+            'population' => 'integer',
+            'households' => 'integer',
+            'area_hectares' => 'float',
         ];
     }
 
@@ -60,23 +63,16 @@ class Profile extends Model
         });
     }
 
-    /** Profil dukuh hanya satu baris. */
     public static function current(): ?self
     {
         return static::query()->first();
     }
 
-    /**
-     * Profil untuk website publik, disimpan di cache beberapa menit supaya
-     * tiap halaman tidak perlu query ke database. Kalau database bermasalah,
-     * mengembalikan null agar halaman tetap bisa tampil.
-     */
     public static function cached(): ?self
     {
         try {
             return Cache::remember('site.profile', now()->addMinutes(10), fn () => static::current());
         } catch (Throwable $e) {
-            // Cache bermasalah: ambil langsung dari database.
             report($e);
         }
 
@@ -99,7 +95,6 @@ class Profile extends Model
         return static::storageUrl($this->cover_image_path);
     }
 
-    /** Link WhatsApp siap pakai (08xx otomatis jadi 628xx). */
     public function getWhatsappUrlAttribute(): ?string
     {
         $number = preg_replace('/\D+/', '', (string) $this->whatsapp);
@@ -115,10 +110,6 @@ class Profile extends Model
         return "https://wa.me/{$number}";
     }
 
-    /**
-     * Kolom ini boleh diisi dengan kode HTML sematan dari Google Maps
-     * (<iframe ... src="...">) atau langsung URL-nya. Yang disimpan hanya URL-nya.
-     */
     public function setMapEmbedAttribute(?string $value): void
     {
         $value = trim((string) $value);
@@ -130,18 +121,9 @@ class Profile extends Model
         $this->attributes['map_embed'] = $value !== '' ? $value : null;
     }
 
-    /**
-     * URL peta untuk iframe. Urutan pilihan:
-     * 1. kode sematan Google Maps (kolom map_embed),
-     * 2. link "embed" yang ditempel di kolom link peta,
-     * 3. koordinat (latitude dan longitude),
-     * 4. alamat.
-     * Kalau semuanya kosong, tidak ada peta yang ditampilkan.
-     */
     public function getMapEmbedUrlAttribute(): ?string
     {
         foreach ([$this->map_embed, $this->map_url] as $candidate) {
-            // Hanya sematan resmi Google Maps yang dipakai di iframe.
             if ($candidate && str_starts_with($candidate, 'https://www.google.com/maps/embed')) {
                 return $candidate;
             }

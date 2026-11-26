@@ -1,6 +1,5 @@
 @php
     $siteName = $profile?->name ?? config('site.name');
-    $showLocation = $profile?->map_embed_url || $profile?->map_url || $profile?->address;
 @endphp
 
 <x-layouts.app title="Profil" :description="$profile?->description">
@@ -67,21 +66,6 @@
                         @endforeach
                     </ul>
                 @endif
-            </section>
-        @endif
-
-        {{-- Lokasi --}}
-        @if ($showLocation)
-            <section aria-labelledby="lokasi">
-                <h2 id="lokasi" class="font-display text-2xl font-bold text-primary-900 sm:text-3xl">Lokasi</h2>
-
-                @if ($profile->address)
-                    <p class="mt-4 whitespace-pre-line text-lg">{{ $profile->address }}</p>
-                @endif
-
-                <div class="mt-6">
-                    <x-location-map :profile="$profile" />
-                </div>
             </section>
         @endif
 
